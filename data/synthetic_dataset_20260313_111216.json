@@ -1,0 +1,41 @@
+[
+  {
+    "timestamp": "2024-07-30T10:30:00.000Z",
+    "rule": {
+      "id": "60106",
+      "level": 8,
+      "description": "Windows - Suspicious command execution (whoami /priv).",
+      "firedtimes": 1,
+      "mitre": {
+        "id": [
+          "T1033",
+          "T1087"
+        ],
+        "tactic": [
+          "Discovery",
+          "Discovery"
+        ]
+      }
+    },
+    "agent": {
+      "id": "001",
+      "name": "WIN-SRV01",
+      "ip": "192.168.1.100"
+    },
+    "manager": {
+      "name": "wazuh-manager"
+    },
+    "id": "1722335400.12345",
+    "decoder": {
+      "name": "sysmon"
+    },
+    "full_log": "<Event xmlns=\"http://schemas.microsoft.com/win/2004/08/events/event\"><System><Provider Name=\"Microsoft-Windows-Sysmon\" Guid=\"{5770385F-C22A-43E0-BF4C-06F5698FFBD9}\"/><EventID>1</EventID><Version>5</Version><Level>4</Level><Task>1</Task><Opcode>0</Opcode><Keywords>0x8000000000000000</Keywords><TimeCreated SystemTime=\"2024-07-30T10:30:00.000Z\"/><EventRecordID>12345</EventRecordID><Correlation/><Execution ProcessID=\"4567\" ThreadID=\"7890\"/><Channel>Microsoft-Windows-Sysmon/Operational</Channel><Computer>WIN-SRV01</Computer><Security UserID=\"S-1-5-18\"/></System><EventData><Data Name=\"RuleName\">-</Data><Data Name=\"UtcTime\">2024-07-30T10:30:00.000Z</Data><Data Name=\"ProcessGuid\">{1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d}</Data><Data Name=\"ProcessId\">4567</Data><Data Name=\"Image\">C:\\Windows\\System32\\whoami.exe</Data><Data Name=\"FileVersion\">10.0.19041.1 (WinBuild.160101.0800)</Data><Data Name=\"Description\">Displays user, group, and privilege information</Data><Data Name=\"Product\">Microsoft\u00ae Windows\u00ae Operating System</Data><Data Name=\"Company\">Microsoft Corporation</Data><Data Name=\"OriginalFileName\">whoami.exe</Data><Data Name=\"CommandLine\">whoami.exe /priv</Data><Data Name=\"CurrentDirectory\">C:\\Users\\Administrator\\</Data><Data Name=\"User\">WIN-SRV01\\Administrator</Data><Data Name=\"LogonGuid\">{f1e2d3c4-b5a6-9e8d-7c6b-5a4d3c2b1a0f}</Data><Data Name=\"LogonId\">0x3e7</Data><Data Name=\"TerminalSessionId\">1</Data><Data Name=\"IntegrityLevel\">High</Data><Data Name=\"Hashes\">SHA1=A1B2C3D4E5F6A7B8C9D0E1F2A3B4C5D6E7F8A9B0,MD5=1234567890ABCDEF1234567890ABCDEF,SHA256=0A1B2C3D4E5F6A7B8C9D0E1F2A3B4C5D6E7F8A9B0C1D2E3F4A5B6C7D8E9F0A1B,IMPHASH=AABBCCDDEEFF00112233445566778899</Data><Data Name=\"ParentProcessGuid\">{0f9e8d7c-6b5a-4d3c-2b1a-0f9e8d7c6b5a}</Data><Data Name=\"ParentProcessId\">1234</Data><Data Name=\"ParentImage\">C:\\Windows\\System32\\cmd.exe</Data><Data Name=\"ParentCommandLine\">\"C:\\Windows\\System32\\cmd.exe\" /c whoami /priv</Data><Data Name=\"ParentUser\">WIN-SRV01\\Administrator</Data></EventData></Event>",
+    "data": {
+      "command_line": "whoami.exe /priv",
+      "hashes": "SHA1=A1B2C3D4E5F6A7B8C9D0E1F2A3B4C5D6E7F8A9B0,MD5=1234567890ABCDEF1234567890ABCDEF,SHA256=0A1B2C3D4E5F6A7B8C9D0E1F2A3B4C5D6E7F8A9B0C1D2E3F4A5B6C7D8E9F0A1B,IMPHASH=AABBCCDDEEFF00112233445566778899",
+      "target_user": "WIN-SRV01\\Administrator",
+      "source_ip": null
+    },
+    "location": "EventChannel"
+  }
+]
