@@ -87,10 +87,38 @@ def generate_synthetic_dataset(prime_factor: str, depth: int = 1, similarity_thr
         print("\n⚠️ Pipeline Complete, but 0 logs passed the quality gate. Try a different prime factor.")
 
 if __name__ == "__main__":
-    # Let's test it with a totally new attack vector
-    test_objective = "Privilege Escalation via Windows Token Manipulation"
+    # The Overnight Batch Target List
+    attack_vectors = [
+        "LSASS Memory Dumping via ProcDump",
+        "Kerberoasting Service Account Tickets",
+        "Scheduled Task Creation for Malicious Payload",
+        "SSH Authorized_Keys Manipulation",
+        "Disabling Windows Defender via PowerShell",
+        "Clearing Windows Event Logs via wevtutil",
+        "Pass the Hash via Windows Management Instrumentation (WMI)",
+        "Remote Execution via PsExec",
+        "Data Exfiltration over DNS Tunneling",
+        "Ransomware Encryption of Local User Files"
+    ]
     
-    try:
-        generate_synthetic_dataset(prime_factor=test_objective, depth=1, similarity_threshold=0.85)
-    except Exception as e:
-        print(f"\n[!] Master Orchestrator Error: {e}")
+    print(f"🌟 INITIATING OVERNIGHT BATCH RUN: {len(attack_vectors)} Vectors Queued 🌟\n")
+    
+    # Loop through every attack in the list
+    for i, vector in enumerate(attack_vectors):
+        print(f"==================================================")
+        print(f"[{i+1}/{len(attack_vectors)}] PROCESSING: {vector}")
+        print(f"==================================================")
+        try:
+            # We run each one through the entire pipeline
+            generate_synthetic_dataset(prime_factor=vector, depth=1, similarity_threshold=0.90)
+            
+            # Take a 30-second breather between massive attack trees
+            print("\n[BATCH MANAGER] Attack complete. Cooling down for 30s before the next vector...\n")
+            time.sleep(30)
+            
+        except Exception as e:
+            print(f"\n[!] BATCH MANAGER ERROR on '{vector}': {e}")
+            print("[BATCH MANAGER] Skipping to next vector in 30s...\n")
+            time.sleep(30)
+            
+    print("BATCH RUN FINISHED!")

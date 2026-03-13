@@ -20,7 +20,7 @@ class CommonsTaxonomyEngine:
     def __init__(self):
         self.client = genai.Client()
         # Using the exact flash model verified by our diagnostic script
-        self.model_name = "gemini-2.5-flash" 
+        self.model_name = "gemini-2.0-flash" 
 
     def generate_branches(self, prime_factor: str, depth: int) -> list[TaxonomyNode]:
         prompt = self._build_glan_prompt(prime_factor, depth)

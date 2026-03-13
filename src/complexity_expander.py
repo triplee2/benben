@@ -19,7 +19,7 @@ class AttackTimeline(BaseModel):
 class CommonsComplexityExpander:
     def __init__(self):
         self.client = genai.Client()
-        self.model_name = "gemini-2.5-flash"
+        self.model_name = "gemini-2.0-flash"
 
     def generate_timeline(self, technique: str, target: str) -> list[AttackStep]:
         """Expands a single taxonomy node into a multi-step attack narrative."""

@@ -52,7 +52,7 @@ class WazuhAlertSchema(BaseModel):
 class CommonsLogGenerator:
     def __init__(self):
         self.client = genai.Client()
-        self.model_name = "gemini-2.5-flash"
+        self.model_name = "gemini-2.0-flash"
 
     def synthesize_wazuh_alert(self, action_description: str, time_offset_minutes: int) -> WazuhAlertSchema:
         """Translates a single human-readable attack step into a strict Wazuh JSON alert."""
