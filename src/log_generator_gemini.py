@@ -3,12 +3,12 @@ import json
 from dotenv import load_dotenv
 from pydantic import BaseModel, Field
 from typing import Optional, List
-from groq import Groq
+from google import genai
+from google.genai import types
 
 load_dotenv()
 
-
-# 1. Strict Sub-Models
+# 1. Strict Sub-Models (No open-ended Dicts allowed by the API!)
 class MitreData(BaseModel):
     id: List[str] = Field(..., description="List of MITRE IDs, e.g., ['T1070']")
     tactic: List[str] = Field(..., description="List of MITRE tactics, e.g., ['Defense Evasion']")
@@ -48,76 +48,56 @@ class WazuhAlertSchema(BaseModel):
     data: Optional[ExtractedData] = Field(None, description="Dynamic fields extracted from the log")
     location: str = Field(..., description="File or channel, e.g., 'EventChannel' or '/var/log/auth.log'")
 
-
 # 2. The Log Generator Engine
 class CommonsLogGenerator:
     def __init__(self):
-        self.client = Groq(api_key=os.getenv("GROQ_API_KEY"))
-        self.model_name = "llama-3.3-70b-versatile"
+        self.client = genai.Client()
+        self.model_name = "gemini-2.0-flash"
 
     def synthesize_wazuh_alert(self, action_description: str, time_offset_minutes: int) -> WazuhAlertSchema:
         """Translates a single human-readable attack step into a strict Wazuh JSON alert."""
         prompt = self._build_prompt(action_description, time_offset_minutes)
-
-        response = self.client.chat.completions.create(
+        
+        response = self.client.models.generate_content(
             model=self.model_name,
-            messages=[
-                {
-                    "role": "system",
-                    "content": (
-                        "You are a SIEM engine generating strictly formatted Wazuh alerts.json entries. "
-                        "You MUST respond with valid JSON only — no preamble, no markdown fences, no explanation. "
-                        "Your response must match this exact schema:\n"
-                        "{\n"
-                        '  "timestamp": "ISO 8601 string",\n'
-                        '  "rule": { "id": "str", "level": int, "description": "str", "firedtimes": int, '
-                        '"mitre": { "id": ["T1234"], "tactic": ["Tactic Name"] } },\n'
-                        '  "agent": { "id": "str", "name": "str", "ip": "str" },\n'
-                        '  "manager": { "name": "str" },\n'
-                        '  "id": "unique string",\n'
-                        '  "decoder": { "name": "str" },\n'
-                        '  "full_log": "raw log string",\n'
-                        '  "data": { "command_line": "str or null", "hashes": "str or null", '
-                        '"target_user": "str or null", "source_ip": "str or null" },\n'
-                        '  "location": "str"\n'
-                        "}"
-                    )
-                },
-                {"role": "user", "content": prompt}
-            ],
-            temperature=0.4,
-            response_format={"type": "json_object"},
+            contents=prompt,
+            config=types.GenerateContentConfig(
+                response_mime_type="application/json",
+                response_schema=WazuhAlertSchema,
+                temperature=0.4 # Lower temperature for strict technical accuracy in logs
+            )
         )
-
-        raw = response.choices[0].message.content
-        return WazuhAlertSchema.model_validate_json(raw)
+        
+        return WazuhAlertSchema.model_validate_json(response.text)
 
     def _build_prompt(self, action_description: str, time_offset_minutes: int) -> str:
-        return (
-            f'Translate the following attacker action into a highly realistic Wazuh alert:\n\n'
-            f'Action: "{action_description}"\n'
-            f"Time Offset: +{time_offset_minutes} minutes\n\n"
-            f"Ensure the 'full_log' contains an incredibly authentic raw string "
-            f"(like a Windows Sysmon Event ID 1 XML string, or a raw Linux auditd log). "
-            f"Map the 'rule.id' and 'rule.level' to realistic Wazuh security rules. "
-            f"Populate the 'data' structure with extracted fields like command lines or IPs if they exist."
-        )
-
+        return f"""
+        You are a SIEM engine generating a strictly formatted Wazuh alerts.json entry.
+        Translate the following attacker action into a highly realistic Wazuh alert:
+        
+        Action: "{action_description}"
+        Time Offset: +{time_offset_minutes} minutes
+        
+        Ensure the 'full_log' contains an incredibly authentic raw string (like a Windows Sysmon Event ID 1 XML string, or a raw Linux auditd log).
+        Map the 'rule.id' and 'rule.level' to realistic Wazuh security rules.
+        Populate the 'data' structure with extracted fields like command lines or IPs if they exist in the action.
+        """
 
 # ---------------------------------------------------------
 # Local Test Block
 # ---------------------------------------------------------
 if __name__ == "__main__":
-    print("Testing CommonsLogGenerator (Groq)...")
+    print("Testing CommonsLogGenerator...")
     try:
         generator = CommonsLogGenerator()
-
+        
+        # We are feeding it Step 8 from your exact timeline!
         test_action = "Clear relevant event logs on the target host to remove traces of the successful logon. Specifically target the Security event log. Command: wevtutil cl Security"
-
+        
         alert = generator.synthesize_wazuh_alert(action_description=test_action, time_offset_minutes=25)
-
+        
         print(f"\n[ Generated Wazuh Alert ]\n")
         print(alert.model_dump_json(indent=2))
-
+            
     except Exception as e:
         print(f"\nOops! An error occurred: {e}")

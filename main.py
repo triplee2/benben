@@ -88,11 +88,11 @@ def generate_synthetic_dataset(prime_factor: str, depth: int = 1, similarity_thr
                 
                 # 5. Throttle
                 print("        [zZz] Sleeping for 15s to respect API speed limits...")
-                time.sleep(15)
+                time.sleep(2)
                 
             except Exception as e:
                 print(f"      [!] Error on step {step.step_number}: {e}")
-                time.sleep(15)
+                time.sleep(2)
         
         # ---------------------------------------------------------
         # Build the campaign record for this branch
@@ -193,11 +193,11 @@ if __name__ == "__main__":
             print(f"  Flat data  → {flat_file}")
             print(f"  Campaigns  → {campaign_file}")
             print("[BATCH MANAGER] Cooling down for 30s before the next vector...\n")
-            time.sleep(30)
+            time.sleep(2)
             
         except Exception as e:
             print(f"\n[!] BATCH MANAGER ERROR on '{vector}': {e}")
             print("[BATCH MANAGER] Skipping to next vector in 30s...\n")
-            time.sleep(30)
+            time.sleep(2)
             
     print("🏁 BATCH RUN FINISHED!")

@@ -1,11 +1,10 @@
 import os
-import json
 from dotenv import load_dotenv
 from pydantic import BaseModel, Field
-from groq import Groq
+from google import genai
+from google.genai import types
 
 load_dotenv()
-
 
 # 1. Define the strict timeline schema
 class AttackStep(BaseModel):
@@ -16,64 +15,56 @@ class AttackStep(BaseModel):
 class AttackTimeline(BaseModel):
     narrative: list[AttackStep] = Field(..., description="The step-by-step timeline of the attack")
 
-
 # 2. Build the Expander Engine
 class CommonsComplexityExpander:
     def __init__(self):
-        self.client = Groq(api_key=os.getenv("GROQ_API_KEY"))
-        self.model_name = "llama-3.3-70b-versatile"
+        self.client = genai.Client()
+        self.model_name = "gemini-2.0-flash"
 
     def generate_timeline(self, technique: str, target: str) -> list[AttackStep]:
         """Expands a single taxonomy node into a multi-step attack narrative."""
         prompt = self._build_prompt(technique, target)
-
-        response = self.client.chat.completions.create(
+        
+        response = self.client.models.generate_content(
             model=self.model_name,
-            messages=[
-                {
-                    "role": "system",
-                    "content": (
-                        "You are an elite Red Team operator simulating an advanced persistent threat. "
-                        "You MUST respond with valid JSON only — no preamble, no markdown fences, no explanation. "
-                        "Your response must be a JSON object with a single key 'narrative' containing an array of steps. "
-                        "Each step must have exactly these keys: step_number (int), action_description (str), time_offset_minutes (int)."
-                    )
-                },
-                {"role": "user", "content": prompt}
-            ],
-            temperature=0.8,
-            response_format={"type": "json_object"},
+            contents=prompt,
+            config=types.GenerateContentConfig(
+                response_mime_type="application/json",
+                response_schema=AttackTimeline,
+                temperature=0.8 # Slightly higher temperature for creative stealth tactics
+            )
         )
-
-        raw = response.choices[0].message.content
-        parsed_timeline = AttackTimeline.model_validate_json(raw)
+        
+        parsed_timeline = AttackTimeline.model_validate_json(response.text)
         return parsed_timeline.narrative
 
     def _build_prompt(self, technique: str, target: str) -> str:
-        return (
-            f'Your objective is to execute the following technique: "{technique}" against the target: "{target}". '
-            f"Break this single objective down into a realistic, step-by-step timeline of micro-actions. "
-            f"Include reconnaissance, preparation, execution, and cleanup. "
-            f"Specify exact command line tools, PowerShell scripts, or network utilities you would type."
-        )
-
+        return f"""
+        You are an elite Red Team operator simulating an advanced persistent threat.
+        Your objective is to execute the following technique: "{technique}" against the target: "{target}".
+        
+        Break this single objective down into a realistic, step-by-step timeline of micro-actions. 
+        Include reconnaissance, preparation, execution, and cleanup. 
+        Specify exact command line tools, PowerShell scripts, or network utilities you would type.
+        """
 
 # ---------------------------------------------------------
 # Local Test Block
 # ---------------------------------------------------------
 if __name__ == "__main__":
-    print("Testing CommonsComplexityExpander (Groq)...")
+    print("Testing CommonsComplexityExpander...")
     try:
         expander = CommonsComplexityExpander()
-
+        
+        # We are feeding it the exact output from your Branch 1 test!
         test_technique = "Remote Desktop Protocol (RDP) with Stolen Credentials"
         test_target = "TCP port 3389, RDP service on target host"
-
+        
         timeline = expander.generate_timeline(technique=test_technique, target=test_target)
-
+        
         print(f"\n[ Attack Timeline for: {test_technique} ]\n")
         for step in timeline:
             print(f"T+{step.time_offset_minutes} mins | Step {step.step_number}: {step.action_description}")
-
+            
     except Exception as e:
         print(f"\nOops! An error occurred: {e}")

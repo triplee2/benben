@@ -269,11 +269,11 @@ def run_pipeline(vector: str, event_queue: queue.Queue = None):
                     })
 
                 emit("info", {"message": "Sleeping 15s (API rate limit)..."})
-                time.sleep(15)
+                time.sleep(2)
 
             except Exception as e:
                 emit("error", {"message": f"Step {step.step_number} failed: {e}"})
-                time.sleep(15)
+                time.sleep(2)
 
         # Build campaign record
         if campaign_steps:
